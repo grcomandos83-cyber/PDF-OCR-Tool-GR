@@ -1,7 +1,22 @@
 # PDF OCR Tool GR 📄🔍
+
+[![Release](https://img.shields.io/github/v/release/grcomandos83-cyber/PDF-OCR-Tool-GR?style=for-the-badge&logo=windows&label=Τελευταία%20Έκδοση)](https://github.com/grcomandos83-cyber/PDF-OCR-Tool-GR/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/grcomandos83-cyber/PDF-OCR-Tool-GR/total?style=for-the-badge&logo=github&label=Λήψεις)](https://github.com/grcomandos83-cyber/PDF-OCR-Tool-GR/releases)
+[![Build](https://img.shields.io/github/actions/workflow/status/grcomandos83-cyber/PDF-OCR-Tool-GR/build-release.yml?style=for-the-badge&logo=github-actions&label=Build)](https://github.com/grcomandos83-cyber/PDF-OCR-Tool-GR/actions)
+
 ### Οδηγός Εγκατάστασης & Χρήσης για Χρήστες
 
 Το **PDF OCR Tool GR** είναι ένα εύχρηστο πρόγραμμα για Windows που μετατρέπει σαρωμένα έγγραφα **PDF** και **εικόνες** σε επεξεργάσιμο κείμενο (**Word**, **Searchable PDF** ή **TXT**), με εξειδίκευση στα **Νέα Ελληνικά**, **Αρχαία / Πολυτονικά Ελληνικά** και **Αγγλικά**.
+
+---
+
+## 📥 Λήψη Εφαρμογής
+
+> ### ⬇️ [**Κατεβάστε την τελευταία έκδοση (PDF_OCR_Tool_GR.exe)**](https://github.com/grcomandos83-cyber/PDF-OCR-Tool-GR/releases/latest/download/PDF_OCR_Tool_GR.exe)
+>
+> *Δεν απαιτείται εγκατάσταση — απλά κατεβάστε και τρέξτε το `.exe`!*
+
+📋 [Ιστορικό εκδόσεων & παλαιότερες εκδόσεις](https://github.com/grcomandos83-cyber/PDF-OCR-Tool-GR/releases)
 
 ---
 

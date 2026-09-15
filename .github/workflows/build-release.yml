@@ -1,0 +1,93 @@
+name: Build & Release PDF OCR Tool GR
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag (e.g. v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build EXE with PyInstaller
+        run: |
+          pyinstaller `
+            --noconsole `
+            --onefile `
+            --clean `
+            --name "PDF_OCR_Tool_GR" `
+            --collect-all pymupdf `
+            --collect-all docx `
+            --collect-all rapidocr_onnxruntime `
+            --collect-all onnxruntime `
+            --hidden-import=PIL `
+            --hidden-import=pytesseract `
+            --hidden-import=numpy `
+            pdf_ocr_tool.py
+
+      - name: Verify build output
+        run: |
+          if (Test-Path "dist/PDF_OCR_Tool_GR.exe") {
+            $size = (Get-Item "dist/PDF_OCR_Tool_GR.exe").Length / 1MB
+            Write-Host "✅ Build successful! EXE size: $([math]::Round($size, 2)) MB"
+          } else {
+            Write-Error "❌ Build failed - EXE not found!"
+            exit 1
+          }
+
+      - name: Determine version
+        id: version
+        run: |
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            $ver = "${{ github.event.inputs.version }}"
+          } else {
+            $ver = "${{ github.ref_name }}"
+          }
+          echo "VERSION=$ver" >> $env:GITHUB_OUTPUT
+          Write-Host "Version: $ver"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.VERSION }}
+          name: "PDF OCR Tool GR ${{ steps.version.outputs.VERSION }}"
+          body: |
+            ## 📄 PDF OCR Tool GR - ${{ steps.version.outputs.VERSION }}
+            
+            ### 📥 Οδηγίες Εγκατάστασης
+            1. Κατεβάστε το αρχείο **`PDF_OCR_Tool_GR.exe`** από παρακάτω
+            2. Εγκαταστήστε το [Tesseract OCR](https://github.com/UB-Mannheim/tesseract/wiki) με τα ελληνικά πακέτα γλωσσών
+            3. Εκτελέστε το `PDF_OCR_Tool_GR.exe`
+            
+            ### ✨ Χαρακτηριστικά
+            - Αναγνώριση κειμένου σε Νέα Ελληνικά, Αρχαία/Πολυτονικά και Αγγλικά
+            - Εξαγωγή σε Searchable PDF, Word (.docx) και TXT
+            - Βελτίωση εικόνας για καλύτερα αποτελέσματα OCR
+          files: dist/PDF_OCR_Tool_GR.exe
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
